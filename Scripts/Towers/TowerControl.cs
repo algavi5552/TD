@@ -26,7 +26,7 @@ public class TowerControl : MonoBehaviour
     {
         attackCounter -= Time.deltaTime;//запускаем счет между выстрелами
 
-        if (targetEnemy == null)//если нет врага в прицеле
+        if (targetEnemy == null || targetEnemy.IsDead)//если нет врага в прицеле или враг умер
         {
             Enemy nearestEnemy = GetNearestEnemy();
             if (nearestEnemy != null && Vector2.Distance

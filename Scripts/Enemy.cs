@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    
+
 
     [SerializeField]
     Transform exit;
@@ -13,22 +13,35 @@ public class Enemy : MonoBehaviour
 
     [SerializeField]
     float navigation;//частота обновления перса
+    [SerializeField]
+    int health;
 
     int target = 0;
     Transform enemy;//считываем координаты врага
+    Collider2D enemyCollider;
     float navigationTime = 0;
+    bool isDead = false;
+
+    public bool IsDead
+    {
+        get
+        {
+            return isDead;
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         enemy = GetComponent<Transform>();
+        enemyCollider = GetComponent<Collider2D>();
         Manager.Instance.RegisterEnemy(this);//вызываем RegisterEnemy в менеджере
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (wayPoints!=null)//если еще остались непокрытые ВП
+        if (wayPoints!=null || isDead == false)//если еще остались непокрытые ВП и враг жив
         {
             navigationTime += Time.deltaTime;
             if (navigationTime < navigation)
@@ -57,5 +70,28 @@ public class Enemy : MonoBehaviour
         {
             Manager.Instance.UnregisterEnemy(this);
         }
+        else if (collision.tag=="Projectile")//если снаряд попал во врага
+        {
+            Projectile newP = collision.gameObject.GetComponent<Projectile>();
+            EnemyHit(newP.AttackDamage);//наносим урон снарядами с тегом projectile
+            Destroy(collision.gameObject);//снаряд уничтожается
+        }
+    }
+    public void EnemyHit(int hitPoints)
+    {
+        if (health - hitPoints > 0)//если еще не умер
+        {
+            health -= hitPoints;//вычитаем урон из хп
+        }
+        else
+        {
+            Die();
+        }
+        
+    }
+    public void Die()
+    {
+        isDead = true;
+        enemyCollider.enabled = false;//когда враг погибает.коллайдер отключается
     }
 }
