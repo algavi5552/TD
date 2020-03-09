@@ -2542,6 +2542,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 289400713}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &186496853 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7495474699949402585, guid: e3b8ca90f06226b4dbe7fd90377e83ed,
+    type: 3}
+  m_PrefabInstance: {fileID: 289400713}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0481f749b83e67f4aaf6513661e41d8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &193460138
 GameObject:
   m_ObjectHideFlags: 0
@@ -12053,7 +12065,7 @@ GameObject:
   - component: {fileID: 1251861934}
   - component: {fileID: 1251861933}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Play
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12118,7 +12130,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1251861934}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 186496853}
+        m_MethodName: PlayButtonPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1251861934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19839,7 +19862,7 @@ PrefabInstance:
     - target: {fileID: 8971673529923331340, guid: b5ad6386f0dd8ca41a808a230718c40d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.3
+      value: 3.7
       objectReference: {fileID: 0}
     - target: {fileID: 8971673529923331340, guid: b5ad6386f0dd8ca41a808a230718c40d,
         type: 3}
@@ -20189,7 +20212,7 @@ PrefabInstance:
     - target: {fileID: 4980557637665534758, guid: 7519805cba0a91642a7161c01263e706,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.18
+      value: 5.08
       objectReference: {fileID: 0}
     - target: {fileID: 4980557637665534758, guid: 7519805cba0a91642a7161c01263e706,
         type: 3}
@@ -20240,11 +20263,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Finish
-      objectReference: {fileID: 0}
-    - target: {fileID: 7229752727797678307, guid: 7519805cba0a91642a7161c01263e706,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7519805cba0a91642a7161c01263e706, type: 3}

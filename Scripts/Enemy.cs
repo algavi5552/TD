@@ -68,11 +68,13 @@ public class Enemy : MonoBehaviour
     {
         if (collision.tag == "Waypoint")
         {
-            target++;
+            target++;//если враг дошел до ВП, то го к следующему ВП
         }
-        else if(collision.tag == "Finish")
+        else if(collision.tag == "Finish")//если враг дошел до финиша
         {
+            Manager.Instance.TotalEscaped++;
             Manager.Instance.UnregisterEnemy(this);
+            Manager.Instance.IsWaveOver();//проверка на последнего врага
         }
         else if (collision.tag=="Projectile")//если снаряд попал во врага
         {
@@ -99,5 +101,8 @@ public class Enemy : MonoBehaviour
     {
         isDead = true;
         enemyCollider.enabled = false;//когда враг погибает.коллайдер отключается
+        Manager.Instance.TotalKilled++;
+        Manager.Instance.addMoney(rewardAmount);//добавить денег за убитого врага
+        Manager.Instance.IsWaveOver();//проверка на последнего врага
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public enum gameStatus
 {
     play,gameover,win
@@ -27,12 +28,11 @@ public class Manager : Loader<Manager>
     [SerializeField]
     int maxEnemiesOnScreen;
     [SerializeField]
-    int totalEnemies;
+    int totalEnemies = 8;
     [SerializeField]
     int enemiesPerSpawn;
     int totalMoney = 30;//стартовые деньги
     int totalEscaped = 0;
-    int roundEscaped = 0;
     int totalKilled = 0;
     gameStatus currentState = gameStatus.play;
 
@@ -40,6 +40,28 @@ public class Manager : Loader<Manager>
 
     const float spawnDelay = 0.5f;//появление моба каждые 0,5с
 
+    public int TotalEscaped
+    {
+        get
+        {
+            return totalEscaped;//получаем инфо о сбежавших врагах
+        }
+        set
+        {
+            totalEscaped = value;
+        }
+    }
+    public int TotalKilled
+    {
+        get
+        {
+            return totalKilled;//получаем инфо об убитых врагах
+        }
+        set
+        {
+            totalKilled = value;
+        }
+    }
     public int TotalMoney
     {
         get
@@ -71,7 +93,7 @@ public class Manager : Loader<Manager>
             {
                 if (EnemyList.Count< maxEnemiesOnScreen)
                 {
-                    GameObject newEnemy = Instantiate(enemies[0]) as GameObject;
+                    GameObject newEnemy = Instantiate(enemies[0]) as GameObject;//спавним первый в списке вид врага
                     newEnemy.transform.position = spawnPoint.transform.position;
                 }
             }
@@ -107,6 +129,56 @@ public class Manager : Loader<Manager>
     {
         TotalMoney -= amount;
     }
+
+    public void IsWaveOver()
+    {
+        if ((totalEscaped + TotalKilled) == totalEnemies)//если все враги сбежали или убиты
+        {
+            SetCurrentGamestate();
+            ShowMenu();
+        }
+    }
+    public void SetCurrentGamestate()//определим, в каком состоянии нах-ся игра
+    {
+        if(totalEscaped>=3)//если врагов сбежало больше """3"""
+        {
+            currentState = gameStatus.gameover;
+        }
+        else if ((TotalKilled + TotalEscaped) == 0)//если уровень еще не начат
+        {
+            currentState = gameStatus.play;
+        }
+        else if (TotalKilled>=totalEnemies-2)//если убито врагов хотя бы 6
+        {
+            currentState = gameStatus.win;
+        }
+        //else
+        //{
+        //    currentState = gameStatus.play;
+        //}
+    }
+
+    public void PlayButtonPressed()
+    {
+        switch (currentState)
+        {
+            //case gameStatus.play:
+            //    break;
+            default:
+                totalEnemies = 8;
+                TotalEscaped = 0;//при начале игры сбежавших 0
+                TotalMoney = 30;
+                totalMoneyLabel.text = TotalMoney.ToString();
+                break;
+                
+        }
+        DestroyEnemies();//удалим врагов в начале раунда
+        TotalKilled = 0;
+        StartCoroutine(Spawn());//начинаем растянуто спавнить врагов
+        playBtn.gameObject.SetActive(false);//отключаем кнопку play
+
+    }
+
     public void ShowMenu()
     {
         switch (currentState)
