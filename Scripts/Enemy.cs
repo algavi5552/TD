@@ -19,6 +19,7 @@ public class Enemy : MonoBehaviour
     int target = 0;
     Transform enemy;//считываем координаты врага
     Collider2D enemyCollider;
+    Animator anim;
     float navigationTime = 0;
     bool isDead = false;
 
@@ -35,6 +36,7 @@ public class Enemy : MonoBehaviour
     {
         enemy = GetComponent<Transform>();
         enemyCollider = GetComponent<Collider2D>();
+        anim = GetComponent<Animator>();
         Manager.Instance.RegisterEnemy(this);//вызываем RegisterEnemy в менеджере
     }
 
@@ -82,10 +84,12 @@ public class Enemy : MonoBehaviour
         if (health - hitPoints > 0)//если еще не умер
         {
             health -= hitPoints;//вычитаем урон из хп
+            anim.Play("Hurt");
         }
         else
         {
             Die();
+            anim.SetTrigger("didDie");
         }
         
     }
