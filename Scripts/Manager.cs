@@ -2,31 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Manager : MonoBehaviour
+public class Manager : Loader<Manager>
 {
-    public static Manager instance = null;//менеджера изначально нет на сцене
-
-    public GameObject spawnPoint;
-    public GameObject[] enemies;
-    public int maxEnemiesOnScreen;
-    public int totalEnemies;
-    public int enemiesPerSpawn;
+    [SerializeField]
+    GameObject spawnPoint;
+    [SerializeField]
+    GameObject[] enemies;
+    [SerializeField]
+    int maxEnemiesOnScreen;
+    [SerializeField]
+    int totalEnemies;
+    [SerializeField]
+    int enemiesPerSpawn;
 
     int enemiesOnScreen = 0;
     const float spawnDelay = 0.5f;//появление моба каждые 0,5с
 
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else if (instance != this)
-        {
-            Destroy(gameObject);
-        }
-        DontDestroyOnLoad(gameObject);
-    }
+    
     void Start()
     {
         StartCoroutine(Spawn());

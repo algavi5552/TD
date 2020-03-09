@@ -1,17 +1,24 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Loader : MonoBehaviour
+public class Loader <T> : MonoBehaviour where T : MonoBehaviour
 {
-    public GameObject manager;
+    private static T instance;//менеджера изначально нет на сцене
 
-    void Awake()
+    public static T Instance
     {
-        if(Manager.instance==null)
+        get
         {
-            Instantiate(manager);//если манагера нет, создать его
+            if (instance == null)
+            {
+                instance = FindObjectOfType<T>();
+            }
+            else if (instance != FindObjectOfType<T>())
+            {
+                Destroy(FindObjectOfType<T>());
+            }
+            DontDestroyOnLoad(FindObjectOfType<T>());
+
+            return instance;
         }
     }
-
 }
