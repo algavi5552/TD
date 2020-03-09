@@ -15,6 +15,8 @@ public class Enemy : MonoBehaviour
     float navigation;//частота обновления перса
     [SerializeField]
     int health;
+    [SerializeField]
+    int rewardAmount;
 
     int target = 0;
     Transform enemy;//считываем координаты врага

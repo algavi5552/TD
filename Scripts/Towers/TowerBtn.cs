@@ -6,6 +6,8 @@ public class TowerBtn : MonoBehaviour
     GameObject towerObject;
     [SerializeField]
     Sprite dragSprite;
+    [SerializeField]
+    int towerPrice;
 
     public GameObject TowerObject
     {
@@ -20,6 +22,13 @@ public class TowerBtn : MonoBehaviour
         get
         {
             return dragSprite;//возвращает картинку выбранной кнопки
+        }
+    }
+    public int TowerPrice
+    {
+        get
+        {
+            return towerPrice;
         }
     }
 }
