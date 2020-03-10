@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-
-
     [SerializeField]
     Transform exit;
+
     [SerializeField]
     Transform[] wayPoints;
 
     [SerializeField]
     float navigation;//частота обновления перса
+
     [SerializeField]
     int health;
+
     [SerializeField]
     int rewardAmount;
 

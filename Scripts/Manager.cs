@@ -152,28 +152,17 @@ public class Manager : Loader<Manager>
         {
             currentState = gameStatus.win;
         }
-        //else
-        //{
-        //    currentState = gameStatus.play;
-        //}
     }
 
     public void PlayButtonPressed()
     {
-        switch (currentState)
-        {
-            //case gameStatus.play:
-            //    break;
-            default:
                 totalEnemies = 8;
                 TotalEscaped = 0;//при начале игры сбежавших 0
                 TotalMoney = 30;
                 TowerManager.Instance.DestroyAllTowers();//в начале игры уничтожаем башни
                 TowerManager.Instance.RenameTagBuildSite();
                 totalMoneyLabel.text = TotalMoney.ToString();
-                break;
-                
-        }
+               
         DestroyEnemies();//удалим врагов в начале раунда
         TotalKilled = 0;
         StartCoroutine(Spawn());//начинаем растянуто спавнить врагов

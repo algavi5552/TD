@@ -15,13 +15,6 @@ public class TowerControl : MonoBehaviour
 
     float attackCounter;//задержка между выстрелами  для нашей башни
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
         attackCounter -= Time.deltaTime;//запускаем счет между выстрелами
