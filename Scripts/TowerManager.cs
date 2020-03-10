@@ -40,15 +40,25 @@ public class TowerManager : Loader<TowerManager>
         {
             GameObject newTower = Instantiate(towerBtnPressed.TowerObject);
             newTower.transform.position = hit.transform.position;//положение новой башни должно совпадать с ЛКМ
+            BuyTower(towerBtnPressed.TowerPrice);
             DisableDrug();//деактивируем картинку башни на курсоре
         }
         
     }
+
+    public void BuyTower(int price) 
+    {
+        Manager.Instance.subtractMoney(price);//вычитаем деньги
+    }
+
     public void SelectedTower(TowerBtn towerSelected)
     {
-        towerBtnPressed = towerSelected;
-        EnableDrug(towerBtnPressed.DragSprite);
-        Debug.Log("Pressed"+ towerBtnPressed.gameObject);
+        if (towerSelected.TowerPrice <= Manager.Instance.TotalMoney)
+            // башня выбирается только если у нас хватает денег
+        {
+            towerBtnPressed = towerSelected;
+            EnableDrug(towerBtnPressed.DragSprite);
+        }
     }
 
     public void FollowMouse()
