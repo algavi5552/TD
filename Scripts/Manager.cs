@@ -168,6 +168,8 @@ public class Manager : Loader<Manager>
                 totalEnemies = 8;
                 TotalEscaped = 0;//при начале игры сбежавших 0
                 TotalMoney = 30;
+                TowerManager.Instance.DestroyAllTowers();//в начале игры уничтожаем башни
+                TowerManager.Instance.RenameTagBuildSite();
                 totalMoneyLabel.text = TotalMoney.ToString();
                 break;
                 

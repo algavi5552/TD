@@ -8,9 +8,15 @@ public class TowerManager : Loader<TowerManager>
     public TowerBtn towerBtnPressed { get; set; }
 
     SpriteRenderer spriteRenderer;
+    private List<TowerControl> TowerList = new List<TowerControl>();//создаем список башен
+    private List<Collider2D> BuildList = new List<Collider2D>();
+    private Collider2D buildTile;
+
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        buildTile = GetComponent<Collider2D>();//при старте считываем коллайдеры башен
+        spriteRenderer.enabled = false;//на старте игры отключить картинки башен
     }
 
     // Update is called once per frame
@@ -23,7 +29,9 @@ public class TowerManager : Loader<TowerManager>
 
             if (hit.collider.tag=="TowerSide") //ставим башни только в точки с тегом
             {
-                hit.collider.tag = "TowerSideFull";
+                buildTile = hit.collider;
+                buildTile.tag = "TowerSideFull";
+                RegisterBuildSite(buildTile);
                 PlaceTower(hit);
             }
         }
@@ -33,14 +41,43 @@ public class TowerManager : Loader<TowerManager>
         }
     }
 
+    public void RegisterBuildSite(Collider2D buildTag)//делаем список из башен на экране
+    {
+        BuildList.Add(buildTag);
+    }
+
+    public void RegisterTower(TowerControl tower)//регистрируем башню в списке башен на экране
+    {
+        TowerList.Add(tower);
+    }
+
+    public void RenameTagBuildSite()//переименовывает тег "занятоБашней" на "свободноДляСтройки"
+    {
+        foreach (Collider2D buildTag in BuildList)
+        {
+            buildTag.tag = "TowerSide";
+        }
+        BuildList.Clear();
+    }
+
+    public void DestroyAllTowers()
+    {
+        foreach(TowerControl tower in TowerList)
+        {
+            Destroy(tower.gameObject);
+        }
+        TowerList.Clear();
+    }
+
     public void PlaceTower(RaycastHit2D hit)
     {
         if (!EventSystem.current.IsPointerOverGameObject() && towerBtnPressed!=null)
             //если мы не навели кнопка башни нажата и ЛКМ уже не на ее иконке
         {
-            GameObject newTower = Instantiate(towerBtnPressed.TowerObject);
+            TowerControl newTower = Instantiate(towerBtnPressed.TowerObject);
             newTower.transform.position = hit.transform.position;//положение новой башни должно совпадать с ЛКМ
             BuyTower(towerBtnPressed.TowerPrice);
+            RegisterTower(newTower);
             DisableDrug();//деактивируем картинку башни на курсоре
         }
         
